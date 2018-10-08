@@ -1,0 +1,512 @@
+﻿
+@{
+    ViewBag.Title = "enquiry";
+ 
+}
+
+    <!-excel,pdf datable->
+<link href="~/Content/excel,pdf/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/excel,pdf/buttons.dataTables.min.css" rel="stylesheet" />
+    <!-excel,pdf->
+
+
+<head>
+    @*<style>
+        .field-icon {
+            padding-right: 25px;
+            float: right;
+            margin-left: -25px;
+            margin-top: -25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            padding-top: 50px;
+            margin: auto;
+        }
+    </style>*@
+</head>
+<style>
+    .dropdown-menu {
+        z-index: 1100;
+    }
+</style>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Calls</h4>
+            </div>
+            <div class="modal-body">
+                <!-- /.box-header -->
+                <form method="post" enctype="multipart/form-data" id="myForm">
+                    <div class="row">
+
+                        <div class="form-group col-sm-6">
+                            <label>Entry date</label>
+                            <input type="text" class="form-control" name="END_DATE" id="end_date" autocomplete="off" placeholder="Enter Date">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                        <div class="form-group col-sm-6 ">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="NAME" id="name" required placeholder="Enter Name">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                       
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Phone no</label>
+                            <input type="text" class="form-control" onkeypress="phoneno()" maxlength="12" name="NUMBER" id="phone_no" placeholder="Enter phone no">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Email</label>
+                            <input type="text" class="form-control" name="EMAIL" id="email" required placeholder="Enter Email">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+
+                        @*<div class="form-group col-sm-6">
+                                <label>Password</label>
+                                <input type="password" class="form-control" name="PASSWORD" id="password" required placeholder="Enter password">
+                                <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                            </div>*@
+
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group col-sm-6">
+                            <div class="control-label  form-horizontal">
+                                Gender
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" id="gender1" name="GENDER" value="Male" checked />Male
+                                <input type="radio" id="gender2" name="GENDER" value="Female" />Female
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Reference</label>
+                            <input type="text" class="form-control" name="REFERENCE" id="reference" placeholder="Enter Reference">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Course Name <span class="error"> </span></label>
+                        <select name="COURSE_ENQUIRY" id="course_enquiry" class="form-control select2" dir="ltr" style="width: 100%;">
+                            <option value="5">Select course</option>
+                            @foreach (var item in ViewBag.course)
+                            {
+                                                              
+                                <option value="@item.ID">@item.COURSE_NAME</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6 ">
+                            <label>Date of Birth</label>
+                            <input type="text" class="form-control" name="DOB" id="datepicker2" autocomplete="off" placeholder="Enter DOB">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Joining date</label>
+                            <input type="text" class="form-control" name="JOINING_DATE" id="datepicker" autocomplete="off" placeholder="Enter Date">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                       
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6 ">
+                            <label>In-Time</label>
+                            <input type="time" class="form-control" name="IN_TIME" id="in_time" placeholder="Enter In time">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Out-Time</label>
+                            <input type="time" class="form-control" name="OUT_TIME" id="out_time" placeholder="Enter Out time">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+
+                    </div>
+
+                   
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6">
+                            <label>Given Fees</label>
+                            <input type="text" class="form-control" name="FEES" id="fees" placeholder="Enter testimonial">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Testimonial</label>
+                            <input type="text" class="form-control" name="TESTIMONIAL" id="testimonial" placeholder="Enter testimonial">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                    </div>
+
+
+
+                    <div class="box-footer">
+                        <input type="hidden" id="hdnid" name="ID" />
+                        <input type="submit" class="btn btn-success pull-right" id="add" value="Add Enquiry" />
+                        <input type="submit" class="btn btn-success pull-right hidden" id="hide" value="Update Enquiry" />
+                    </div>
+                </form>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="box-header">
+    @*<h3 class="box-title">Register</h3>*@
+    <a data-toggle="modal" data-target="#myModal" onclick="OpenDialog2()" data-dismiss="modal" type="button" class="btn btn-primary hide_me" style="float: right;">New Enquiry</a>
+</div>
+@if (TempData["email"] != null)
+{
+    <span style="color:red;margin-left:360px">@TempData["email"]</span>
+}
+<div>
+    <div class="table-responsive" style="overflow:auto">
+        <table id="editable-sample" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+
+                    <th>Sr No</th>
+                    <th>Entry Date</th>
+                    <th>Name</t h>
+                    <th>Email</th>
+                    <th>Number</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>Reference</th>
+                    <th>Course Inquiry</th>
+                    <th>Joining date</th>
+                    <th>In Time</th>
+                    <th>Out-Time</th>
+                    <th>Testimonial</th>
+                    <th>Given Fees</th>
+                    <th>Remaining Fees</th>
+                   
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 1;}
+                @foreach (var item in ViewBag.enquiry)
+            {
+
+                    <tr id="row_@item.ID">
+
+                        <td>
+                            @i
+                        </td>
+                        <td>
+                            @if (item.END_DATE != null)
+                            {
+                                @item.END_DATE.ToShortDateString()
+                            }
+                        </td>
+                        <td>
+                            @item.NAME
+                        </td>
+                        <td>
+                            @item.EMAIL
+                        </td>
+
+                        <td>
+                            @item.NUMBER
+                        </td>
+                        <td id="gender_@item.ID">
+                            @item.GENDER
+                        </td>
+                        <td>
+
+                            @if (item.DOB != null)
+                        {
+                                @item.DOB.ToShortDateString()
+                        }
+                        </td>
+                        <td>
+                            @item.REFERENCE
+                        </td>
+                        <td>
+                            @if(item.cours.COURSE_NAME !=null)
+                            { 
+                            @item.cours.COURSE_NAME
+                                }
+                        </td>
+                        <td>
+                            @if (item.JOINING_DATE != null)
+                        {
+                                @item.JOINING_DATE.ToShortDateString()
+                        }
+                        </td>
+
+                        <td id="intime_@item.ID">
+                            @item.IN_TIME
+                        </td>
+
+                        <td id="out-time_@item.ID">
+                            @item.OUT_TIME
+                        </td>
+                        <td>
+                            @item.TESTIMONIAL
+                        </td>
+                        <td>
+                            @item.FEES
+                        </td>
+                        <td>
+                            @item.REMAINING_FEES
+                        </td>
+                      
+
+                        <td>
+                            <a onclick="OpenDialog(@item.ID)" style="display:inline" data-toggle="modal" data-target="#myModal" type="button"> <i class="fa fa-edit"></i></a>
+                            <a onclick="Delete(@item.ID,'del')"> &nbsp; <i class="fa fa-trash-o"></i> </a>
+                        </td>
+
+                    </tr>
+                i++;
+            }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .dropdown-menu {
+        z-index: 1100;
+    }
+</style>
+@*<script src="~/Content/css/jquery-2.2.3.min.js"></script>*@
+@*<script src="~/Scripts/plugins/bootstrap-datepicker.js"></script>*@
+@*<script src="~/Scripts/plugins/js/moment.min.js"></script>*@
+
+@*<script src="../../js/jquery.js"></script>
+<script src="~/js/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="~/js/bootstrap-datepicker/js/moment.min.js"></script>*@
+@*<script src="~/Scripts/plugins/js/moment.min.js"></script>*@
+<script src="~/Content/bootstrap-datepicker.js"></script>
+
+<script>
+    $('#datepicker2,#datepicker,#end_date').datepicker({
+        format: 'dd/mm/yyyy'
+    });
+</script>
+<script>
+  
+
+    function phoneno() {
+        $('#phone_no').keypress(function (e) {
+            var a = [];
+            var k = e.which;
+
+            for (i = 48; i < 58; i++)
+                a.push(i);
+
+            if (!(a.indexOf(k) >= 0))
+                e.preventDefault();
+        });
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#editable-sample').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#editable-sample,#editable-sample2').DataTable();
+    });
+  
+      
+ 
+    //$(".toggle-password").click(function () {
+    //    $(this).toggleClass("fa-eye fa-eye-slash");
+    //    var input = $($(this).attr("toggle"));
+    //    if (input.attr("type") == "password") {
+    //        input.attr("type", "text");
+    //    } else {
+    //        input.attr("type", "password");
+    //    }
+    //});
+</script>
+
+<script>
+    function OpenDialog2()
+    {
+        document.getElementById("myForm").reset();
+            var pati = {
+
+            }
+            $('#hdnid').val(0);
+            $('#add').removeClass('hidden');
+            $('#logoid').addClass('hidden');
+            $('#hide').addClass('hidden');
+
+        }
+</script>
+
+
+ 
+
+<script>
+   
+    function OpenDialog(id) {
+        var pati = {
+            ID: id,
+
+        }
+        var intime = $('#intime_' + id).text().trim();
+        $('#in_time').val(intime);
+
+        var out_time = $('#out-time_' + id).text().trim();
+        $('#out_time').val(out_time);
+
+
+        $('#add').addClass('hidden');
+        $('#logoid').addClass('hidden');
+        $('#hide').removeClass('hidden');
+        $.ajax({
+            url: '/Home/getenquiry/' + id,
+            type: 'GET',
+            success: function (data) {
+                $('#hdnid').val(data.data.ID);
+                $('#name').val(data.data.NAME);
+                $('#email').val(data.data.EMAIL );
+                $('#phone_no').val(data.data.NUMBER);
+                //  $('#dob').val(data.data.DOB );
+                if (data.data.DOB != null)
+                    {
+                    var dob = moment(data.data.DOB).format("DD/MM/YYYY"); //json string
+                    $('#datepicker2').val(dob);
+                    }
+               
+
+                $('#reference').val(data.data.REFERENCE);
+
+
+                var course = data.data.courseid;
+                var cousename=data.data.COURSE_NAME;
+                $('#course_enquiry option[value="' + course + '"]').prop("selected", "selected").change();
+
+                if (data.data.DOB != null) {
+                    var joiningdate = moment(data.data.JOINING_DATE).format("DD/MM/YYYY"); //json string
+                    $('#datepicker').val(joiningdate);
+                }
+
+                $('#testimonial').val(data.data.TESTIMONIAL );
+
+                $('#fees').val(data.data.FEES);
+
+                if (data.data.DOB != null) {
+                    var enddate = moment(data.data.END_DATE).format("DD/MM/YYYY"); //json string
+                    $('#end_date').val(enddate);
+                }
+
+             //   $('#in_time').val(data.data.IN_TIME);
+                //if (data.data.IN_TIME != null)
+                //    {
+                //var intime = moment(data.data.IN_TIME).format("DD/MM/YYYY"); //json string
+                //$('#in_time').val(data.data.IN_TIME);
+
+                //$(function () {
+                //    var d = new Date(),
+                //        h = d.getHours(),
+                //        m = d.getMinutes();
+                //    if (h < 10) h = '0' + h;
+                //    if (m < 10) m = '0' + m;
+                //    $('input[type="time"][value="intime"]').each(function () {
+                //        $('#in_time').attr({ 'value': h + ':' + m });
+                //    });
+                //});
+
+                //}
+                var gender = $('#gender_' + id).text().trim();
+               if (gender == 'Male') {
+                   $('input:radio[name=GENDER]')[0].checked = "Male";
+
+               }
+               else {
+                   $('input:radio[name=GENDER]')[1].checked ="Female";
+
+               }
+
+             //   $("#department_name").append('<option selected style="color:black;" value="' + user1 + '">' + user2 + '</option>')
+             // $('#department_name option[value="' + user1 + '"]').prop("selected", "selected").change();
+             // $('#department_name').find('option[value="' + user1 + '"]').attr('selected', 'selected');
+
+            }
+        });
+    }
+</script>
+
+<script>
+        function Delete(id,del)
+        {
+            if (confirm("Are you sure Delete this Record?")) {
+                var deletes =
+                   {
+                       ID : id,
+                       enquiry_del: del,
+                   }
+                {
+                    $.ajax({
+                        url: '/Home/delete/',
+                        data: JSON.stringify(deletes),
+                        type: 'post',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var dt = data.data.ID;
+
+                                $('#row_'+dt).hide();
+
+
+                        }
+                    });
+                    error: {
+
+                    }
+                }
+            }
+            return false;
+        }
+
+</script>
+
+<!-excel,pdf datable js->
+<script src="~/Content/excel,pdf/jquery-3.3.1.js"></script>
+<script src="~/Content/excel,pdf/jquery.dataTables.min.js"></script>
+<script src="~/Content/excel,pdf/dataTables.buttons.min.js"></script>
+<script src="~/Content/excel,pdf/buttons.flash.min.js"></script>
+<script src="~/Content/excel,pdf/jszip.min.js"></script>
+<script src="~/Content/excel,pdf/pdfmake.min.js"></script>
+<script src="~/Content/excel,pdf/vfs_fonts.js"></script>
+<script src="~/Content/excel,pdf/buttons.html5.min.js"></script>
+<script src="~/Content/excel,pdf/buttons.print.min.js"></script>
+ <!-excel,pdf datable js->

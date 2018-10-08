@@ -1,0 +1,310 @@
+﻿
+@{
+    ViewBag.Title = "callslist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <!-excel,pdf datable->
+<link href="~/Content/excel,pdf/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/excel,pdf/buttons.dataTables.min.css" rel="stylesheet" />
+    <!-excel,pdf->
+
+@*<link href="~/Content/css/dataTables.bootstrap.css" rel="stylesheet" />*@
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Calls list</h4>
+            </div>
+            <div class="modal-body">
+                <!-- /.box-header -->
+                <form method="post" enctype="multipart/form-data" id="myForm">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Date</label>
+                            <input type="text" class="form-control" name="DATE" id="date" required placeholder="Enter date">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                            </div>
+                        <div class="form-group col-sm-6">
+                            <label>Total Calls</label>
+                            <input type="number" class="form-control" name="TOTAL_CALLS" id="total_calls" required placeholder="Enter Total calls">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                   </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Total lead</label>
+                            <input type="number" class="form-control" name="TOTAL_LEAD" id="total_lead" required placeholder="Enter Total Lead">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                         </div>
+                        <div class="form-group col-sm-6">
+                            <label>Genuine Calls</label>
+                            <input type="number" class="form-control" name="GENUINE" id="genuine" required placeholder="Enter Genuine calls">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>In-Progress Calls</label>
+                            <input type="number" class="form-control" name="IN_PROGRESS" id="in_progress" required placeholder="Enter In-progress calls">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Fake Calls</label>
+                            <input type="number" class="form-control" name="FAKE" id="fake" required placeholder="Enter Fake calls">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Interested Calls</label>
+                            <input type="number" class="form-control" name="INTERESTED" id="interested" required placeholder="Enter Interested calls">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Converted Calls</label>
+                            <input type="number" class="form-control" name="CONVERTED" id="converted" required placeholder="Enter Converted calls">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                       
+                    </div>
+
+                    <div class="row">
+                        
+                        <div class="form-group col-sm-6">
+                            <label>Receive Calls</label>
+                            <input type="number" class="form-control" name="RECEIVECALLS" id="receivecalls" required placeholder="Enter Receive calls">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Unreceive calls</label>
+                            <input type="number" class="form-control" name="UNRECEIVECALLS" id="unreceivecalls" placeholder="Enter Unreceive calls">
+                            <!-- <span class="help-block error">* User Name Already Exist</span> -->
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="box-footer">
+                        <input type="hidden" id="hdnid" name="ID" />
+                        <input type="submit" class="btn btn-success pull-right" id="add" value="Add call-list" />
+                        <input type="submit" class="btn btn-success pull-right hidden" id="hide" value="Update call-list" />
+                    </div>
+                </form>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="box-header">
+    @*<h3 class="box-title">Register</h3>*@
+    <a data-toggle="modal" data-target="#myModal" onclick="OpenDialog2()" data-dismiss="modal" type="button" class="btn btn-primary" style="float: right;">New Calls-list</a>
+</div>
+
+<div>
+    <table id="editable-sample" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Sr no</th>
+                <th>Date</th>
+                <th>Total Lead</th>
+                <th>Total calls</th>
+                <th>Genuine Calls</th>
+                <th>Fake Calls</th>
+                <th>Interested Calls</th>
+                <th>In-progress Calls</th>
+                <th>Converted</th>
+                <th>Receive Calls</th>
+                <th>Unreceive Calls</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1;}
+            @foreach (var item in ViewBag.calls)
+            {
+                <tr id="row_@item.ID">
+
+                    <td>
+                        @i
+                    </td>
+                    <td>
+                        @item.DATE.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.TOTAL_LEAD
+                    </td>
+                    <td>
+                        @item.TOTAL_CALLS
+                    </td>
+                    <td>
+                        @item.GENUINE
+                    </td>
+                    <td>
+                        @item.FAKE
+                    </td>
+                    <td>
+                        @item.INTERESTED
+                    </td>
+                    <td>
+                        @item.IN_PROGRESS
+                    </td>
+                    <td>
+                        @item.CONVERTED
+                    </td>
+                    <td>
+                        @item.RECEIVECALLS
+                    </td>
+                    <td>
+                        @item.UNRECEIVECALLS
+                    </td>
+
+                    <td>
+                        <a onclick="OpenDialog(@item.ID)" style="display:inline" data-toggle="modal" data-target="#myModal" type="button"> <i class="fa fa-edit"></i></a>
+                        <a onclick="Delete(@item.ID,'del')"> &nbsp; <i class="fa fa-trash-o"></i> </a>
+                    </td>
+
+                </tr>
+                i++;
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .dropdown-menu {
+        z-index: 1100;
+    }
+</style>
+@*<script src="~/js/jquery.js"></script>*@
+@*<script src="https://code.jquery.com/jquery-3.3.1.js"></script>*@
+@*<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+@*<script src="~/Scripts/plugins/bootstrap-datepicker.js"></script>*@
+@*<script src="~/Scripts/plugins/js/moment.min.js"></script>*@
+
+<script src="~/Content/bootstrap-datepicker.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#editable-sample').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>
+<script>
+    $('#date').datepicker({
+        format: 'dd/mm/yyyy'
+    });
+</script>
+@*<script>
+    $(document).ready(function () {
+        $('#editable-sample').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>*@
+@*<script src="~/Scripts/plugins/js/jquery.js"></script>
+<script src="~/Scripts/plugins/dataTables.bootstrap.min.js"></script>*@
+<script>
+    function OpenDialog2()
+    {
+        document.getElementById("myForm").reset();
+            var pati = {
+
+            }
+            $('#hdnid').val(0);
+            $('#add').removeClass('hidden');
+            $('#logoid').addClass('hidden');
+            $('#hide').addClass('hidden');
+
+        }
+</script>
+<script>
+    function OpenDialog(id) {
+        var pati = {
+            ID : id,
+        }
+        $('#add').addClass('hidden');
+        $('#logoid').addClass('hidden');
+        $('#hide').removeClass('hidden');
+        $.ajax({
+            url: '/Home/getcallslist/' + id,
+            type: 'GET',
+            success: function (data) {
+                $('#hdnid').val(data.data.ID);
+               // $('#date').val(data.data.DATE);
+                var date = moment(data.data.DATE).format("DD/MM/YYYY"); //json string
+                $('#date').val(date);
+                $('#total_lead').val(data.data.TOTAL_LEAD);
+                $('#total_calls').val(data.data.TOTAL_CALLS);
+                $('#genuine').val(data.data.GENUINE);
+                $('#fake').val(data.data.FAKE);
+                $('#interested').val(data.data.INTERESTED);
+                $('#in_progress').val(data.data.IN_PROGRESS);
+                $('#converted').val(data.data.CONVERTED);
+                $('#receivecalls').val(data.data.RECEIVECALLS);
+                $('#unreceivecalls').val(data.data.UNRECEIVECALLS);
+            }
+        });
+    }
+</script>
+
+<script>
+        function Delete(id,del)
+        {
+            if (confirm("Are you sure Delete this Record?")) {
+                var deletes =
+                   {
+                       ID : id,
+                       callslist_del: del,
+                   }
+                {
+                    $.ajax({
+                        url: '/Home/delete/',
+                        data: JSON.stringify(deletes),
+                        type: 'post',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            var dt = data.data.ID;
+
+                                $('#row_'+dt).hide();
+
+
+                        }
+                    });
+                    error: {
+
+                    }
+                }
+            }
+            return false;
+        }
+
+</script>
+<!-excel,pdf datable js->
+<script src="~/Content/excel,pdf/jquery-3.3.1.js"></script>
+<script src="~/Content/excel,pdf/jquery.dataTables.min.js"></script>
+<script src="~/Content/excel,pdf/dataTables.buttons.min.js"></script>
+<script src="~/Content/excel,pdf/buttons.flash.min.js"></script>
+<script src="~/Content/excel,pdf/jszip.min.js"></script>
+<script src="~/Content/excel,pdf/pdfmake.min.js"></script>
+<script src="~/Content/excel,pdf/vfs_fonts.js"></script>
+<script src="~/Content/excel,pdf/buttons.html5.min.js"></script>
+<script src="~/Content/excel,pdf/buttons.print.min.js"></script>
+ <!-excel,pdf datable js->

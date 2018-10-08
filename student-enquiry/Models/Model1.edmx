@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="courses">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="COURSE_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="FEES" Type="nvarchar" MaxLength="50" />
+          <Property Name="IS_DELETED" Type="bit" />
+        </EntityType>
+        <EntityType Name="enquiry">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="50" />
+          <Property Name="NUMBER" Type="nvarchar" MaxLength="50" />
+          <Property Name="REFERENCE" Type="nvarchar(max)" />
+          <Property Name="GENDER" Type="nvarchar" MaxLength="50" />
+          <Property Name="DOB" Type="date" />
+          <Property Name="COURSE_ENQUIRY" Type="int" />
+          <Property Name="IN_TIME" Type="nvarchar" MaxLength="50" />
+          <Property Name="OUT_TIME" Type="nvarchar" MaxLength="50" />
+          <Property Name="JOINING_DATE" Type="datetime" />
+          <Property Name="END_DATE" Type="datetime" />
+          <Property Name="TESTIMONIAL" Type="nvarchar" MaxLength="50" />
+          <Property Name="FEES" Type="nvarchar" MaxLength="50" />
+          <Property Name="REMAINING_FEES" Type="nvarchar" MaxLength="50" />
+          <Property Name="IS_DELETED" Type="bit" />
+        </EntityType>
+        <EntityType Name="todaylist">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DATE" Type="datetime" />
+          <Property Name="TOTAL_LEAD" Type="nvarchar" MaxLength="50" />
+          <Property Name="TOTAL_CALLS" Type="nvarchar" MaxLength="50" />
+          <Property Name="GENUINE" Type="nvarchar" MaxLength="50" />
+          <Property Name="FAKE" Type="nvarchar" MaxLength="50" />
+          <Property Name="INTERESTED" Type="nvarchar" MaxLength="50" />
+          <Property Name="IN_PROGRESS" Type="nvarchar" MaxLength="50" />
+          <Property Name="CONVERTED" Type="nvarchar" MaxLength="50" />
+          <Property Name="RECEIVECALLS" Type="nvarchar" MaxLength="50" />
+          <Property Name="UNRECEIVECALLS" Type="nvarchar" MaxLength="50" />
+          <Property Name="IS_DELETED" Type="bit" />
+        </EntityType>
+        <Association Name="FK_enquiry_ToTable">
+          <End Role="courses" Type="Self.courses" Multiplicity="0..1" />
+          <End Role="enquiry" Type="Self.enquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="enquiry">
+              <PropertyRef Name="COURSE_ENQUIRY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="courses" EntityType="Self.courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="enquiry" EntityType="Self.enquiry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="todaylist" EntityType="Self.todaylist" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_enquiry_ToTable" Association="Self.FK_enquiry_ToTable">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="enquiry" EntitySet="enquiry" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cours">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="COURSE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FEES" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IS_DELETED" Type="Boolean" />
+          <NavigationProperty Name="enquiries" Relationship="Self.FK_enquiry_ToTable" FromRole="courses" ToRole="enquiry" />
+        </EntityType>
+        <EntityType Name="enquiry">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="REFERENCE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GENDER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="COURSE_ENQUIRY" Type="Int32" />
+          <Property Name="IN_TIME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OUT_TIME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JOINING_DATE" Type="DateTime" Precision="3" />
+          <Property Name="END_DATE" Type="DateTime" Precision="3" />
+          <Property Name="TESTIMONIAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FEES" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="REMAINING_FEES" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IS_DELETED" Type="Boolean" />
+          <NavigationProperty Name="cours" Relationship="Self.FK_enquiry_ToTable" FromRole="enquiry" ToRole="courses" />
+        </EntityType>
+        <EntityType Name="todaylist">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DATE" Type="DateTime" Precision="3" />
+          <Property Name="TOTAL_LEAD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TOTAL_CALLS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GENUINE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FAKE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="INTERESTED" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IN_PROGRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CONVERTED" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RECEIVECALLS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UNRECEIVECALLS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IS_DELETED" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_enquiry_ToTable">
+          <End Role="courses" Type="Self.cours" Multiplicity="0..1" />
+          <End Role="enquiry" Type="Self.enquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="enquiry">
+              <PropertyRef Name="COURSE_ENQUIRY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbs_studentEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="courses" EntityType="Self.cours" />
+          <EntitySet Name="enquiries" EntityType="Self.enquiry" />
+          <EntitySet Name="todaylists" EntityType="Self.todaylist" />
+          <AssociationSet Name="FK_enquiry_ToTable" Association="Self.FK_enquiry_ToTable">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="enquiry" EntitySet="enquiries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="dbs_studentEntities">
+          <EntitySetMapping Name="courses">
+            <EntityTypeMapping TypeName="Database1Model.cours">
+              <MappingFragment StoreEntitySet="courses">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="COURSE_NAME" ColumnName="COURSE_NAME" />
+                <ScalarProperty Name="FEES" ColumnName="FEES" />
+                <ScalarProperty Name="IS_DELETED" ColumnName="IS_DELETED" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="enquiries">
+            <EntityTypeMapping TypeName="Database1Model.enquiry">
+              <MappingFragment StoreEntitySet="enquiry">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="NUMBER" ColumnName="NUMBER" />
+                <ScalarProperty Name="REFERENCE" ColumnName="REFERENCE" />
+                <ScalarProperty Name="GENDER" ColumnName="GENDER" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="COURSE_ENQUIRY" ColumnName="COURSE_ENQUIRY" />
+                <ScalarProperty Name="IN_TIME" ColumnName="IN_TIME" />
+                <ScalarProperty Name="OUT_TIME" ColumnName="OUT_TIME" />
+                <ScalarProperty Name="JOINING_DATE" ColumnName="JOINING_DATE" />
+                <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
+                <ScalarProperty Name="TESTIMONIAL" ColumnName="TESTIMONIAL" />
+                <ScalarProperty Name="FEES" ColumnName="FEES" />
+                <ScalarProperty Name="REMAINING_FEES" ColumnName="REMAINING_FEES" />
+                <ScalarProperty Name="IS_DELETED" ColumnName="IS_DELETED" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="todaylists">
+            <EntityTypeMapping TypeName="Database1Model.todaylist">
+              <MappingFragment StoreEntitySet="todaylist">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATE" ColumnName="DATE" />
+                <ScalarProperty Name="TOTAL_LEAD" ColumnName="TOTAL_LEAD" />
+                <ScalarProperty Name="TOTAL_CALLS" ColumnName="TOTAL_CALLS" />
+                <ScalarProperty Name="GENUINE" ColumnName="GENUINE" />
+                <ScalarProperty Name="FAKE" ColumnName="FAKE" />
+                <ScalarProperty Name="INTERESTED" ColumnName="INTERESTED" />
+                <ScalarProperty Name="IN_PROGRESS" ColumnName="IN_PROGRESS" />
+                <ScalarProperty Name="CONVERTED" ColumnName="CONVERTED" />
+                <ScalarProperty Name="RECEIVECALLS" ColumnName="RECEIVECALLS" />
+                <ScalarProperty Name="UNRECEIVECALLS" ColumnName="UNRECEIVECALLS" />
+                <ScalarProperty Name="IS_DELETED" ColumnName="IS_DELETED" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

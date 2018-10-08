@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "uploadexcel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <div class="control-label col-md-2 form-horizontal">
+            Excel File
+        </div>
+        <div class="col-md-10">
+            <span>Excel file</span><input type="file" value="file" name="Excelfile" id="file" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @*<input type="submit" value="Create" class="btn btn-default" />*@
+            <button type="submit" value="Create" class="btn btn-default "><i class="fa fa-cloud-upload"></i> Upload</button>
+        </div>
+    </div>
+</form>
+
+
+@*@if (ViewBag.dup != null)
+{
+    <div>
+        <table class="table table-striped table-hover table-bordered" id="editable-sample">
+
+            <tr>
+                <th>
+                    Email
+                </th>
+                <th>
+                    MobileNo
+                </th>
+            </tr>
+
+            @foreach (var item in ViewBag.dup)
+                {
+
+                <tr>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.Mobile
+                    </td>
+                </tr>
+
+            }
+        </table>
+
+    </div>
+}*@
